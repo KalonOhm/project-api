@@ -25,6 +25,10 @@ class User < ApplicationRecord
   has_many :tokens
   has_many :user_roles
   has_many :roles, through: :user_roles
+  has_many :collections
+  has_many :groups, through: :collections
+  has_many :subgroups, through: :groups 
+  has_many :minis, through: :subgroups 
 
   validates :email, uniqueness: true
 
