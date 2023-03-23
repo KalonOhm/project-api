@@ -1,0 +1,2 @@
+class PaintBrand < ApplicationRecord
+end
