@@ -3,4 +3,8 @@ class Group < ApplicationRecord
   belongs_to :collection
   has_many :subgroups
   has_many :minis, through: :subgroups
+
+  validates :group_name, presence: true
+  validates :group_name, uniqueness: { scope: :collection_id, message: "already exists in this collection" }
+
 end
