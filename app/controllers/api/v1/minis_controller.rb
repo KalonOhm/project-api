@@ -1,5 +1,8 @@
-class Api::V1::MinisController < ApplicationController
-  def index
+
+module Api
+  module V1
+    class MinisController < Api::V1::ApplicationController 
+      def index
   end
 
   def show
@@ -14,3 +17,5 @@ class Api::V1::MinisController < ApplicationController
   def destroy
   end
 end
+end 
+end 

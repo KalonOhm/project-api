@@ -1,4 +1,7 @@
-class Api::V1::SubgroupsController < ApplicationController
+
+module Api
+  module V1
+    class SubgroupsController < Api::V1::ApplicationController
   def index
   end
 
@@ -13,4 +16,6 @@ class Api::V1::SubgroupsController < ApplicationController
 
   def destroy
   end
+end
+end 
 end

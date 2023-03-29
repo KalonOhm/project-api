@@ -1,46 +1,72 @@
-class Api::V1::CollectionsController < ApplicationController
-  def index
-    # don't need to access all collections, just thouse belonging to the current user
-    @collections = current_user.collections
-    render json: @collections
-  end
 
-  def show
-    @collection = current_user.collections.find(params[:id])
-    render json: @collection 
-  rescue ActiveRecord::RecordNotFound 
-    render json: {error: "Collection not found"}, status: :not_found
-  end
+module Api
+  module V1
+    class CollectionsController < Api::V1::ApplicationController
+      before_action :set_collection, only: %i[show update destroy]
 
-  def create
-    result = Creations::Operations.new_collection(params, @current_user)
-    render_error(errors: result.errors.all, status: 400) and return unless result.success?
-    payload = {
-      collection: result.payload,
-      status: 201
-    }
-    render_success(payload: payload)
-    # @collection = current_user.collections.build(collection_params) 
+      # GET /api/v1/collections
+      # GET /api/v1/collections.json
+      def index
+        collections = current_user.collections
+        # render json: @collections
+        payload = {
+          collections: CollectionBlueprint.render_as_hash(collections),
+          status: 200
+        }
+        render_success(payload: payload)
 
-    # if @collection.save
-    #   render json: @collection, status: 200, location: [:api, @collection]
-    # else 
-    #   render json: @collections.errors, status: :unprocessable_entity
-    # end
-  end
+      end
 
-  def update
-    @collection = current_user.collections.find(params[:id])
+      # GET /api/v1/collections/1
+      # GET /api/v1/collections/1.json
+      def show
+        collection = current_user.collections.find(params[:id])
+        payload = {
+          collection: CollectionBlueprint.render_as_hash(collection),
+          status: 200
+        }
+        render_success(payload: payload)
+      end
 
-    if @collection.update(collection_params)
-      render json: @collection, status: 200, location: [:api, @collection]
-    else
-      render json: @collection.errors, status: :unprocessable_entity
-    end 
-  end
+      # POST /api/v1/collections
+      # POST /api/v1/collections.json
+      def create
+        result = Creations::Operations.build_collection( collection_params)
+        render_error(errors: result.errors.all, status: 400) and return unless result.success?
+        payload = {
+          collection: CollectionBlueprint.render_as_hash(result.payload),
+          status: 201
+        }
+        render_success(payload: payload)
+        
+      end
 
-  def destroy
-    @collection = current_user.collections.find(params[:id])
-    @collection.destroy
-  end
+      # PATCH/PUT /api/v1/collections/1
+      # PATCH/PUT /api/v1/collections/1.json
+      def update
+        result = Collection::Operations.update_collection(collection_params)
+        render_error(errors: result.errors.all, status: 400) and return unless result.success?
+        payload = {
+          collection: CollectionBlueprint.render_as_hash(result.payload),
+          status: 201
+        }
+        render_success(payload: payload)
+
+      end
+
+      # DELETE /api/v1/collections/1
+      # DELETE /api/v1/collections/1.json
+      def destroy
+        collection = current_user.collections.find(params[:id])
+        collection.destroy
+        render_success(payload: 'Collection was successfully destroyed.', status: 200)
+      end
+
+      private
+      def set_collection
+        collection = current_user.collections.find(params[:id])
+      end
+      
+    end
+  end 
 end

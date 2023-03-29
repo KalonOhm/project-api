@@ -1,16 +1,21 @@
-class Api::V1::PaintSchemesController < ApplicationController
-  def index
-  end
 
-  def show
-  end
+module Api
+  module V1
+    class PaintSchemesController < Api::V1::ApplicationController
+      def index
+      end
 
-  def create
-  end
+      def show
+      end
 
-  def update
-  end
+      def create
+      end
 
-  def destroy
-  end
-end
+      def update
+      end
+
+      def destroy
+      end
+    end
+  end 
+end 

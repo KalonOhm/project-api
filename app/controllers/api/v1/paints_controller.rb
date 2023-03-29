@@ -1,5 +1,8 @@
-class Api::V1::PaintsController < ApplicationController
-  def index
+
+module Api
+  module V1
+    class PaintsController < Api::V1::ApplicationController
+        def index
   end
 
   def show
@@ -14,3 +17,5 @@ class Api::V1::PaintsController < ApplicationController
   def destroy
   end
 end
+end 
+end 

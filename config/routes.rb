@@ -1,45 +1,45 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  namespace :api do
-    namespace :v1 do
-      get 'paint_scheme_paints/index'
-      get 'paint_scheme_paints/show'
-      get 'paint_scheme_paints/create'
-      get 'paint_scheme_paints/update'
-      get 'paint_scheme_paints/destroy'
-      get 'paint_schemes/index'
-      get 'paint_schemes/show'
-      get 'paint_schemes/create'
-      get 'paint_schemes/update'
-      get 'paint_schemes/destroy'
-      get 'minis/index'
-      get 'minis/show'
-      get 'minis/create'
-      get 'minis/update'
-      get 'minis/destroy'
-      get 'subgroups/index'
-      get 'subgroups/show'
-      get 'subgroups/create'
-      get 'subgroups/update'
-      get 'subgroups/destroy'
-      get 'groups/index'
-      get 'groups/show'
-      get 'groups/create'
-      get 'groups/update'
-      get 'groups/destroy'
-      get 'collections/index'
-      get 'collections/show'
-      get 'collections/create'
-      get 'collections/update'
-      get 'collections/destroy'
-      get 'paints/index'
-      get 'paints/show'
-      get 'paints/create'
-      get 'paints/update'
-      get 'paints/destroy'
-    end
-  end
+  # namespace :api do
+  #   namespace :v1 do
+  #     get 'paint_scheme_paints/index'
+  #     get 'paint_scheme_paints/show'
+  #     get 'paint_scheme_paints/create'
+  #     get 'paint_scheme_paints/update'
+  #     get 'paint_scheme_paints/destroy'
+  #     get 'paint_schemes/index'
+  #     get 'paint_schemes/show'
+  #     get 'paint_schemes/create'
+  #     get 'paint_schemes/update'
+  #     get 'paint_schemes/destroy'
+  #     get 'minis/index'
+  #     get 'minis/show'
+  #     get 'minis/create'
+  #     get 'minis/update'
+  #     get 'minis/destroy'
+  #     get 'subgroups/index'
+  #     get 'subgroups/show'
+  #     get 'subgroups/create'
+  #     get 'subgroups/update'
+  #     get 'subgroups/destroy'
+  #     get 'groups/index'
+  #     get 'groups/show'
+  #     get 'groups/create'
+  #     get 'groups/update'
+  #     get 'groups/destroy'
+  #     get 'collections/index'
+  #     get 'collections/show'
+  #     get 'collections/create'
+  #     get 'collections/update'
+  #     get 'collections/destroy'
+  #     get 'paints/index'
+  #     get 'paints/show'
+  #     get 'paints/create'
+  #     get 'paints/update'
+  #     get 'paints/destroy'
+  #   end
+  # end
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   require 'sidekiq/web'
@@ -70,13 +70,13 @@ Rails.application.routes.draw do
         delete :destroy
 
       # collection routes
-        resources :collections, only: %i[index show create update destroy] do
+        resources :collections, path: '/:user_id/collections' do
         # group routes nested under collections
-          resources :groups, only: %i[index show create update destroy] do
+          resources :groups do
           # subgroup routes nested under groups
-            resources :subgroups, only: %i[index show create update destroy] do
+            resources :subgroups do
             # model resources nested under subgroups
-              resources :models, only: %i[index show create update destroy] 
+              resources :models 
             end
           end
         end

@@ -1,4 +1,7 @@
-class Api::V1::PaintSchemePaintsController < ApplicationController
+
+module Api
+  module V1
+    class PaintBrandsController < Api::V1::ApplicationController
   def index
   end
 
@@ -14,3 +17,5 @@ class Api::V1::PaintSchemePaintsController < ApplicationController
   def destroy
   end
 end
+end 
+end 
