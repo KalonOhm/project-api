@@ -70,7 +70,7 @@ Rails.application.routes.draw do
         delete :destroy
 
       # collection routes
-        resources :collections, path: '/:user_id/collections' do
+        resources :collections do #, path: '/:user_id/collections' do
         # group routes nested under collections
           resources :groups do
           # subgroup routes nested under groups
