@@ -17,7 +17,6 @@ module Api
             status: 200
           }
           render_success(payload: payload)
-
         end
 
         # GET /api/v1/groups/1
@@ -33,14 +32,18 @@ module Api
         # POST /api/v1/groups
         # POST /api/v1/groups.json
         def create
-          result = Groups::Operations.build_group( params, @collection, @current_user)
+          # collection_id = params[:collection_id]
+          result = Groups::Operations.build_group(
+            group_params, 
+            params[:collection_id], 
+            current_user
+          )
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             group: GroupBlueprint.render_as_hash(result.payload),
             status: 201
           }
           render_success(payload: payload)
-          
         end
 
         # PATCH/PUT /api/v1/groups/1
@@ -53,7 +56,6 @@ module Api
             status: 201
           }
           render_success(payload: payload)
-
         end
 
         # DELETE /api/v1/groups/1
@@ -69,7 +71,7 @@ module Api
           @group = @collection.groups.find(params[:id])
         end
         def get_collection
-          @collection = @current_user.collections.find(params[:id])
+          @collection = @current_user.collections.find(params[:collection_id])
         end
       end
     end
