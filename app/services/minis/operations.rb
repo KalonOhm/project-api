@@ -15,7 +15,6 @@ module Minis
       return ServiceContract.success(mini) if mini.update(mini_params[:mini_name])
 
       ServiceContract.error(mini.errors.full_messages)
-
-
+    end
   end
 end

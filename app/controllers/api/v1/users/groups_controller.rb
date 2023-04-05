@@ -7,8 +7,8 @@ module Api
 
         before_action :set_group, only: %i[show update destroy]
 
-        # GET /api/v1/groups
-        # GET /api/v1/groups.json
+        # GET /api/v1/users/:user_id/collections/:collection_id/groups
+        # GET /api/v1/users/:user_id/collections/:collection_id/groups.json
         def index
           groups = @collection.groups
           # render json: @groups
@@ -19,8 +19,8 @@ module Api
           render_success(payload: payload)
         end
 
-        # GET /api/v1/groups/1
-        # GET /api/v1/groups/1.json
+        # GET /api/v1/users/:user_id/collections/:collection_id/groups/1
+        # GET /api/v1/users/:user_id/collections/:collection_id/groups/1.json
         def show
           payload = {
             group: GroupBlueprint.render_as_hash(@group),
@@ -29,21 +29,18 @@ module Api
           render_success(payload: payload)
         end
 
-        # POST /api/v1/groups
-        # POST /api/v1/groups.json
+        # POST /api/v1/users/:user_id/collections/:collection_id/groups
+        # POST /api/v1/users/:user_id/collections/:collection_id/groups.json
         def create
-          # collection_id = params[:collection_id]
-          result = Groups::Operations.build_group(
-            group_params, 
-            params[:collection_id], 
-            current_user
-          )
+          collection_id = params[:collection_id]
+          result = Groups::Operations.build_group( params, collection_id, @current_user)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             group: GroupBlueprint.render_as_hash(result.payload),
             status: 201
           }
           render_success(payload: payload)
+          
         end
 
         # PATCH/PUT /api/v1/groups/1
@@ -56,6 +53,7 @@ module Api
             status: 201
           }
           render_success(payload: payload)
+
         end
 
         # DELETE /api/v1/groups/1

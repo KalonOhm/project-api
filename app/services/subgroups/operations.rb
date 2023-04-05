@@ -15,7 +15,6 @@ module Subgroups
       return ServiceContract.success(subgroup) if subgroup.update(subgroup_params[:subgroup_name])
 
       ServiceContract.error(subgroup.errors.full_messages)
-
-
+    end
   end
 end
