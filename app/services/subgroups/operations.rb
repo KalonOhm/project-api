@@ -11,7 +11,7 @@ module Subgroups
     end
 
     def self.update_subgroup(subgroup_params)
-      subgroup = @group.subgroups.find(params[:id])
+      subgroup = @group.subgroups.find(subgroup_params[:id])
       return ServiceContract.success(subgroup) if subgroup.update(subgroup_params[:subgroup_name])
 
       ServiceContract.error(subgroup.errors.full_messages)

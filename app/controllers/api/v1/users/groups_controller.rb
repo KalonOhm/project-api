@@ -4,7 +4,6 @@ module Api
     module Users
       class GroupsController < Api::V1::ApplicationController  
         before_action :get_collection
-
         before_action :set_group, only: %i[show update destroy]
 
         # GET /api/v1/users/:user_id/collections/:collection_id/groups
@@ -32,8 +31,7 @@ module Api
         # POST /api/v1/users/:user_id/collections/:collection_id/groups
         # POST /api/v1/users/:user_id/collections/:collection_id/groups.json
         def create
-          collection_id = params[:collection_id]
-          result = Groups::Operations.build_group( params, collection_id, @current_user)
+          result = Groups::Operations.build_group(params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             group: GroupBlueprint.render_as_hash(result.payload),
@@ -46,10 +44,10 @@ module Api
         # PATCH/PUT /api/v1/groups/1
         # PATCH/PUT /api/v1/groups/1.json
         def update
-          result = Group::Operations.update_group(params)
+          result = Group::Operations.update_group(params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
-            group: groupBlueprint.render_as_hash(result.payload),
+            group: GroupBlueprint.render_as_hash(result.payload),
             status: 201
           }
           render_success(payload: payload)
