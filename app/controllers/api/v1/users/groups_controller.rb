@@ -28,8 +28,6 @@ module Api
           render_success(payload: payload)
         end
 
-        # POST /api/v1/users/:user_id/collections/:collection_id/groups
-        # POST /api/v1/users/:user_id/collections/:collection_id/groups.json
         def create
           result = Groups::Operations.build_group(group_params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
@@ -38,11 +36,8 @@ module Api
             status: 201
           }
           render_success(payload: payload)
-          
         end
 
-        # PATCH/PUT /api/v1/groups/1
-        # PATCH/PUT /api/v1/groups/1.json
         def update
           result = Groups::Operations.update_group(params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
@@ -51,13 +46,9 @@ module Api
             status: 201
           }
           render_success(payload: payload)
-
         end
 
-        # DELETE /api/v1/groups/1
-        # DELETE /api/v1/groups/1.json
         def destroy
-          # group = @collection.groups.find(params[:id])
           group.delete
           render_success(payload: 'Group successfully deleted.', status: 200)
         end

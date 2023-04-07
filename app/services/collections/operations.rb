@@ -15,6 +15,5 @@ module Collections
 
       ServiceContract.error(collection.errors.full_messages)
     end
-
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_07_003644) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_07_222334) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,11 +34,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_07_003644) do
     t.bigint "subgroup_id", null: false
     t.string "mini_name"
     t.string "loadout"
-    t.integer "quantity"
-    t.string "description"
+    t.integer "quantity", default: 1
+    t.string "description", default: "No description provided."
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "image"
+    t.string "image", default: "https://vectorified.com/images/meeple-icon-23.png"
     t.index ["subgroup_id"], name: "index_minis_on_subgroup_id"
   end
 

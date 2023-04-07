@@ -76,7 +76,7 @@ Rails.application.routes.draw do
           # subgroup routes nested under groups
             resources :subgroups do
             # model resources nested under subgroups
-              resources :models 
+              resources :minis
             end
           end
         end
