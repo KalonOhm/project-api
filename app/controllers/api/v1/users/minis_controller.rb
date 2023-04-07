@@ -33,7 +33,7 @@ module Api
         # POST /api/v1/minis
         # POST /api/v1/minis.json
         def create
-          result = Minis::Operations.build_mini( params)
+          result = Minis::Operations.build_mini(params)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             mini: MiniBlueprint.render_as_hash(result.payload),
@@ -46,7 +46,7 @@ module Api
         # PATCH/PUT /api/v1/minis/1
         # PATCH/PUT /api/v1/minis/1.json
         def update
-          result = Mini::Operations.update_mini(params)
+          result = Minis::Operations.update_mini(params)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             mini: MiniBlueprint.render_as_hash(result.payload),

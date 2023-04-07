@@ -31,7 +31,7 @@ module Api
         # POST /api/v1/users/:user_id/collections/:collection_id/groups
         # POST /api/v1/users/:user_id/collections/:collection_id/groups.json
         def create
-          result = Groups::Operations.build_group(params, @collection)
+          result = Groups::Operations.build_group(group_params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             group: GroupBlueprint.render_as_hash(result.payload),
@@ -44,7 +44,7 @@ module Api
         # PATCH/PUT /api/v1/groups/1
         # PATCH/PUT /api/v1/groups/1.json
         def update
-          result = Group::Operations.update_group(params, @collection)
+          result = Groups::Operations.update_group(params, @collection)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
           payload = {
             group: GroupBlueprint.render_as_hash(result.payload),
@@ -68,6 +68,9 @@ module Api
         end
         def get_collection
           @collection = @current_user.collections.find(params[:collection_id])
+        end
+        def group_params
+          params.require(:group).permit(:group_name)
         end
       end
     end

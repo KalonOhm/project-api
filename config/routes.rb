@@ -89,7 +89,6 @@ Rails.application.routes.draw do
       end
     # paint routes
     resources :paints, only: %i[index show create update destroy]
-    
     end
   end
 end

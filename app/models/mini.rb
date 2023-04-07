@@ -1,7 +1,4 @@
 class Mini < ApplicationRecord
-  belongs_to :user
-  belongs_to :collection_id
-  belongs_to :group
   belongs_to :subgroup
 
   has_one :paint_scheme, dependent: :destroy
