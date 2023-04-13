@@ -14,5 +14,9 @@ class UserBlueprint < Blueprinter::Base
   view :normal do
     fields :first_name, :last_name, :name, :email, :phone
   end
+
+  view :profile do
+    fields :collections
+  end
 end
 

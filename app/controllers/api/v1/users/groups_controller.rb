@@ -6,11 +6,8 @@ module Api
         before_action :get_collection
         before_action :set_group, only: %i[show update destroy]
 
-        # GET /api/v1/users/:user_id/collections/:collection_id/groups
-        # GET /api/v1/users/:user_id/collections/:collection_id/groups.json
         def index
           groups = @collection.groups
-          # render json: @groups
           payload = {
             groups: GroupBlueprint.render_as_hash(groups),
             status: 200
@@ -18,8 +15,6 @@ module Api
           render_success(payload: payload)
         end
 
-        # GET /api/v1/users/:user_id/collections/:collection_id/groups/1
-        # GET /api/v1/users/:user_id/collections/:collection_id/groups/1.json
         def show
           payload = {
             group: GroupBlueprint.render_as_hash(@group),

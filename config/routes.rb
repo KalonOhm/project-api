@@ -68,7 +68,11 @@ Rails.application.routes.draw do
         post :create
         put :update
         delete :destroy
-
+        get :index
+        
+          namespace :collections do
+            get :home 
+          end
       # collection routes
         resources :collections do #, path: '/:user_id/collections' do
         # group routes nested under collections
@@ -80,7 +84,9 @@ Rails.application.routes.draw do
             end
           end
         end
+        
       end
+      get '/users/:id', to: 'users#show', constraints: { id: /[0-9]+/ }
     # paint scheme routes 
       resources :paint_schemes, only: %i[index show create update destroy] do
         # paint_scheme_paint routes nested under paint_schemes

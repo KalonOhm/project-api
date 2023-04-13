@@ -3,7 +3,7 @@
 module Api
   module V1
     class UsersController < Api::V1::ApplicationController
-      skip_before_action :authenticate, only: %i[login create]
+      skip_before_action :authenticate, only: %i[login create show]
 
       def login
         result = BaseApi::Auth.login(params[:email], params[:password], @ip)
@@ -43,6 +43,17 @@ module Api
 
         render_error(errors: { validated: false, status: 401 }) and return if user.nil?
         render_success(payload: { validated: true, status: 200 })
+      end
+
+      def show
+        user = User.find_by(id: params[:id])
+
+        render_success(payload: { user: UserBlueprint.render_as_hash(user, view: :profile) }, status: 200)
+      end
+
+      def index 
+        users = User.all
+        render_success(payload: { users: UserBlueprint.render_as_hash(users) }, status: 200)
       end
     end
   end

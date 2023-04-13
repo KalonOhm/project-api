@@ -4,12 +4,11 @@ module Api
     module Users
       class CollectionsController < Api::V1::ApplicationController
         before_action :set_collection, only: %i[show update destroy]
+        skip_before_action :authenticate, only: %i[home]
+        
 
-        # GET /api/v1/collections
-        # GET /api/v1/collections.json
         def index
           collections = @current_user.collections
-          # render json: @collections
           payload = {
             collections: CollectionBlueprint.render_as_hash(collections),
             status: 200
@@ -18,8 +17,6 @@ module Api
 
         end
 
-        # GET /api/v1/collections/1
-        # GET /api/v1/collections/1.json
         def show
           payload = {
             collection: CollectionBlueprint.render_as_hash(@collection),
@@ -28,8 +25,6 @@ module Api
           render_success(payload: payload)
         end
 
-        # POST /api/v1/collections
-        # POST /api/v1/collections.json
         def create
           result = Collections::Operations.build_collection(params, @current_user)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
@@ -38,11 +33,8 @@ module Api
             status: 201
           }
           render_success(payload: payload)
-          
         end
 
-        # PATCH/PUT /api/v1/collections/1
-        # PATCH/PUT /api/v1/collections/1.json
         def update
           result = Collections::Operations.update_collection(params, @current_user)
           render_error(errors: result.errors.all, status: 400) and return unless result.success?
@@ -51,7 +43,6 @@ module Api
             status: 201
           }
           render_success(payload: payload)
-
         end
 
         # DELETE /api/v1/collections/1
@@ -60,6 +51,10 @@ module Api
           # collection = @current_user.collections.find(params[:id])
           @collection.delete
           render_success(payload: 'Collection was successfully deleted.', status: 200)
+        end
+
+        def home  
+          render_success(payload: {preview: CollectionBlueprint.render_as_hash(Collection.order("RANDOM()").limit(3))}, status: 200)
         end
 
         private
