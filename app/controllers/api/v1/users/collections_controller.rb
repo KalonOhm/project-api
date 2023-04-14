@@ -5,7 +5,6 @@ module Api
       class CollectionsController < Api::V1::ApplicationController
         before_action :set_collection, only: %i[show update destroy]
         skip_before_action :authenticate, only: %i[home]
-        
 
         def index
           collections = @current_user.collections
@@ -14,7 +13,6 @@ module Api
             status: 200
           }
           render_success(payload: payload)
-
         end
 
         def show
@@ -45,10 +43,7 @@ module Api
           render_success(payload: payload)
         end
 
-        # DELETE /api/v1/collections/1
-        # DELETE /api/v1/collections/1.json
         def destroy
-          # collection = @current_user.collections.find(params[:id])
           @collection.delete
           render_success(payload: 'Collection was successfully deleted.', status: 200)
         end
