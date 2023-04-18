@@ -9,7 +9,7 @@ module Api
         def index
           collections = @current_user.collections
           payload = {
-            collections: CollectionBlueprint.render_as_hash(collections),
+            collections: CollectionBlueprint.render_as_hash(collections, view: :expand),
             status: 200
           }
           render_success(payload: payload)
@@ -17,7 +17,7 @@ module Api
 
         def show
           payload = {
-            collection: CollectionBlueprint.render_as_hash(@collection),
+            collection: CollectionBlueprint.render_as_hash(@collection, view: :expand),
             status: 200
           }
           render_success(payload: payload)

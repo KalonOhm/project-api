@@ -9,7 +9,7 @@ module Api
         def index
           groups = @collection.groups
           payload = {
-            groups: GroupBlueprint.render_as_hash(groups),
+            groups: GroupBlueprint.render_as_hash(groups, view: :expand),
             status: 200
           }
           render_success(payload: payload)
@@ -17,7 +17,7 @@ module Api
 
         def show
           payload = {
-            group: GroupBlueprint.render_as_hash(@group),
+            group: GroupBlueprint.render_as_hash(@group, view: :expand),
             status: 200
           }
           render_success(payload: payload)

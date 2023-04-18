@@ -9,7 +9,7 @@ module Api
         def index
           subgroups = @group.subgroups
           payload = {
-            subgroups: SubgroupBlueprint.render_as_hash(subgroups),
+            subgroups: SubgroupBlueprint.render_as_hash(subgroups, view: :expand),
             status: 200
           }
           render_success(payload: payload)
@@ -17,7 +17,7 @@ module Api
 
         def show
           payload = {
-            subgroup: SubgroupBlueprint.render_as_hash(@subgroup),
+            subgroup: SubgroupBlueprint.render_as_hash(@subgroup, view: :expand),
             status: 200
           }
           render_success(payload: payload)
