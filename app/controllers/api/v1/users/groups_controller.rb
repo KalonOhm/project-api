@@ -44,7 +44,7 @@ module Api
         end
 
         def destroy
-          group.delete
+          @group.delete
           render_success(payload: 'Group successfully deleted.', status: 200)
         end
 
